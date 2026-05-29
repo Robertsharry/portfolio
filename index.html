@@ -299,6 +299,14 @@ body:not(.reduce) .letter .cur{animation:blink 1s steps(1) infinite}
   padding:8px 15px;border-radius:9px;display:inline-flex;align-items:center;gap:8px;
   transition:border-color .25s,color .25s,background .25s}
 .ghost-btn:hover{border-color:var(--signal-dim);color:var(--text-hi);background:var(--panel-hover)}
+.run-scenarios{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px;font-family:var(--mono)}
+.run-scenarios button{font-size:12.5px;color:var(--text-mid);padding:9px 14px;border-radius:9px;border:1px solid var(--hairline);
+  background:var(--panel);transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+.run-scenarios button .k{color:var(--text-lo)}
+.run-scenarios button[aria-selected="true"]{color:#06231f;background:var(--signal);border-color:var(--signal)}
+.run-scenarios button[aria-selected="true"] .k{color:#06231f;opacity:.6}
+.run-scenarios button:not([aria-selected="true"]):hover{border-color:var(--signal-dim);color:var(--text-hi)}
+.letter.code{font-family:var(--mono);font-size:12.5px;line-height:1.55;color:var(--text-mid)}
 
 /* ============================================================
    03 · ARCHITECTURE GRAPH
@@ -652,7 +660,7 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
       <li>VA.gov dual-OAuth integration (benefit-claims + veteran-verification); Form 21-0966 and 21-526EZ submission flows.</li>
       <li>Stripe + RevenueCat StoreKit 2 monetization with idempotent webhook reconciliation; Apple 3.1.1/3.1.2 compliant; subscription drift cut to near zero.</li>
       <li>Shipped across 3 codebases / 500+ commits: FastAPI, React 18 + TypeScript (Vercel), React Native 0.84 (TestFlight). AWS ECS Fargate/S3/Textract/CloudWatch, Celery/Redis, FCM, GitHub Actions.</li>
-      <li>Custom iOS 26 “Liquid Glass” React Native design system — 36 components and 18 screens on Reanimated v4; on-device speech to text and text to speech for accessibility.</li>
+      <li>Aurora Night — my own React Native design system, a look inspired by iOS 26 Liquid Glass: 36 components and 18 screens on Reanimated v4; on device speech to text and text to speech for accessibility.</li>
     </ul>
     <h3>Staffwerk — Lead Full Stack Engineer</h3>
     <p class="d">Sep 2024 – Feb 2025</p>
@@ -726,7 +734,9 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
   <div class="wrap">
     <p class="eyebrow">// 02 · agent_run</p>
     <h2 class="sec rv">Watch Kairos reason.</h2>
-    <p class="sec-intro rv d1">The run below is <b>real orchestration</b> — eighteen tools over <b>38 CFR</b> and the <b>M-21 manual</b>, one error, one recovery, one finished nexus letter. It plays once; replay it anytime.</p>
+    <p class="sec-intro rv d1">The run below is <b>real orchestration</b> — pick a job and watch Kairos plan, call tools, hit one failure, recover, and finish. It plays once; replay or switch anytime.</p>
+
+    <div class="run-scenarios rv d1" id="runScenarios" role="tablist" aria-label="Demo scenarios"></div>
 
     <div class="run-shell">
       <!-- LEFT: streaming trace -->
@@ -751,7 +761,7 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
         </div>
         <div class="run-metric pending rv d2" id="runMetric">
           <span class="big" id="metricBig">—</span>
-          <span class="lbl">time to draft<br>vs. manual baseline</span>
+          <span class="lbl">tests green<br>build restored</span>
         </div>
       </div>
     </div>
@@ -769,7 +779,7 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
   <div class="wrap">
     <p class="eyebrow">// 03 · the_graph</p>
     <h2 class="sec rv">Eighteen tools, one orchestrator.</h2>
-    <p class="sec-intro rv d1">Every tool Kairos can call, wired to the corpus it retrieves from. <b>Hover any node</b> to trace its data path; the rest dims so the wiring stays clean.</p>
+    <p class="sec-intro rv d1">Every tool Kairos can call, wired to the systems it works against. <b>Hover any node</b> to trace its data path; the rest dims so the wiring stays clean.</p>
 
     <div class="graph-panel rv d1">
       <div class="graph-legend" aria-hidden="true">
@@ -782,9 +792,9 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
       <div class="graph-list" id="graphList"></div>
     </div>
     <div class="graph-clusters" aria-hidden="true">
-      <span><b>clusters →</b></span><span>retrieval</span><span>drafting</span><span>va.gov</span><span>infra</span>
+      <span><b>clusters →</b></span><span>engineering</span><span>research</span><span>observability</span><span>core</span>
     </div>
-    <p class="graph-note">Token budgeting · per-feature quotas · streaming · LangGraph Postgres checkpoints · Selenium→html2text→Pinecone ingestion</p>
+    <p class="graph-note">Token budgeting · per-tool timeouts · streaming · LangGraph Postgres checkpoints · structured tracing</p>
   </div>
 </section>
 
@@ -793,7 +803,7 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
   <div class="wrap">
     <p class="eyebrow">// 04 · this_ui</p>
     <h2 class="sec rv">The design system is mine.</h2>
-    <p class="sec-intro rv d1">The glass, the motion, the component language on this page are the same <b>iOS 26 "Liquid Glass" system I shipped to production</b> — 36 components across 18 screens on Reanimated v4. This site is the work sample.</p>
+    <p class="sec-intro rv d1">The glass, the motion, the component language here come from <b>Aurora Night</b> — my own design system, built from scratch with no UI kit. The look is inspired by iOS 26 Liquid Glass; the engineering is mine: 36 components across 18 screens on Reanimated v4. This site is the work sample.</p>
 
     <div class="ds-grid">
       <div class="ds-copy rv">
@@ -816,16 +826,16 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
         <div class="glasscard frost" id="glassCard">
           <div class="gc-top">
             <span class="h"><svg viewBox="0 0 64 64"><use href="#kmark"/></svg></span>
-            <b>Symptom severity</b>
+            <b>Build · main</b>
             <span>live</span>
           </div>
-          <div class="gc-row"><span>Tinnitus</span><b>severe · 71%</b></div>
-          <div class="gc-row"><span>Sleep apnea</span><b>moderate · 54%</b></div>
-          <div class="gc-row"><span>PTSD</span><b>severe · 70%</b></div>
+          <div class="gc-row"><span>Tests</span><b>142 passing</b></div>
+          <div class="gc-row"><span>Coverage</span><b>94%</b></div>
+          <div class="gc-row"><span>p99 latency</span><b>180 ms</b></div>
         </div>
         <div class="ds-toggle">
           <span>backdrop blur + specular rim</span>
-          <button class="switch" id="glassSwitch" role="switch" aria-checked="true" aria-label="Toggle Liquid Glass effect"></button>
+          <button class="switch" id="glassSwitch" role="switch" aria-checked="true" aria-label="Toggle the glass effect"></button>
         </div>
       </div>
     </div>
@@ -1066,9 +1076,9 @@ addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
   // telemetry strip (duplicated for seamless marquee)
   const events = [
-    ['langgraph.checkpoint','postgres'],['pinecone.hybrid_query','38_CFR'],['stripe.webhook','reconciled'],
-    ['azure.chat.stream','tokens/s 142'],['textract.ocr','dd-214.pdf'],['celery.task','symptom_reminder'],
-    ['fcm.push','delivered'],['va.oauth','token refreshed'],['tools_registered','18'],['s3.put','draft_v3.json']
+    ['kairos.plan','3 steps'],['repo.search','cart.ts'],['tests.run','142 pass'],
+    ['azure.chat.stream','142 tok/s'],['web.fetch','8 sources'],['metrics.query','p99'],
+    ['logs.scan','timeout'],['github.pr','#1284 opened'],['tools_registered','18'],['checkpoint','postgres']
   ];
   const track = $('#teleTrack');
   const html = events.map(([a,b])=>`<span><i>${a}</i> <em>→</em> ${b}</span>`).join('');
@@ -1079,40 +1089,40 @@ addEventListener('scroll', onScroll, {passive:true}); onScroll();
    TOOLS — single source of truth for graph + run
    ===================================================================== */
 const SOURCES = {
-  cfr:   '38 CFR',
-  m21:   'M-21 manual',
-  med:   'Medical literature',
-  pine:  'Pinecone index',
-  docs:  'Per-user docs',
-  vagov: 'VA.gov dual-OAuth',
-  pg:    'Postgres checkpoints',
-  azure: 'Azure OpenAI'
+  codebase: 'Codebase',
+  vcs:      'Git / GitHub',
+  web:      'Web',
+  vector:   'Pinecone index',
+  logs:     'Logs',
+  metrics:  'Metrics',
+  model:    'Azure OpenAI',
+  pg:       'Postgres checkpoints'
 };
 const TOOLS = [
-  // retrieval
-  {id:'search_38_CFR',          c:'retrieval', s:'cfr',  d:'Full-text + section lookup across Title 38 CFR.'},
-  {id:'query_M21_manual',       c:'retrieval', s:'m21',  d:'Retrieves the relevant M-21 adjudication procedures.'},
-  {id:'retrieve_medical_lit',   c:'retrieval', s:'med',  d:'Pulls peer-reviewed evidence supporting medical nexus.'},
-  {id:'pinecone_hybrid_search', c:'retrieval', s:'pine', d:'Semantic + keyword hybrid retrieval over the embedded corpus.'},
-  {id:'fetch_user_documents',   c:'retrieval', s:'docs', d:'Reads the veteran’s OCR’d records (Textract → S3).'},
-  {id:'rerank_passages',        c:'retrieval', s:'pine', d:'Cross-encoder rerank to keep only the strongest passages.'},
-  // drafting
-  {id:'summarize_service_hist', c:'drafting',  s:'docs', d:'Condenses service history + treatment timeline.'},
-  {id:'draft_personal_stmt',    c:'drafting',  s:'azure',d:'Drafts the veteran’s first-person personal statement.'},
-  {id:'draft_buddy_stmt',       c:'drafting',  s:'azure',d:'Drafts lay / buddy statements from witness context.'},
-  {id:'draft_nexus_letter',     c:'drafting',  s:'azure',d:'Composes a clinician-style nexus letter with citations.'},
-  {id:'cite_regulation',        c:'drafting',  s:'cfr',  d:'Inlines exact CFR / M-21 citations into the draft.'},
-  {id:'tone_calibrate',         c:'drafting',  s:'azure',d:'Tunes register for the target reader (rater vs. clinician).'},
-  // va.gov
-  {id:'va_oauth_claims',        c:'va.gov',    s:'vagov',d:'OAuth into the VA benefit-claims API.'},
-  {id:'va_oauth_verify',        c:'va.gov',    s:'vagov',d:'OAuth into the veteran-verification API.'},
-  {id:'submit_21_0966',         c:'va.gov',    s:'vagov',d:'Files Intent to File (Form 21-0966).'},
-  {id:'submit_21_526ez',        c:'va.gov',    s:'vagov',d:'Files Disability Compensation (Form 21-526EZ).'},
-  {id:'poll_ratings',           c:'va.gov',    s:'vagov',d:'Async-polls disability ratings + service history.'},
-  // infra
-  {id:'checkpoint_state',       c:'infra',     s:'pg',   d:'Persists graph state to Postgres for stateful multi-turn.'},
+  // engineering
+  {id:'search_repo',       c:'engineering',  s:'codebase', d:'Greps and reads across the repository.'},
+  {id:'run_tests',         c:'engineering',  s:'codebase', d:'Runs the test suite and parses the failures.'},
+  {id:'analyze_trace',     c:'engineering',  s:'codebase', d:'Reads a stack trace back to the offending line.'},
+  {id:'apply_patch',       c:'engineering',  s:'codebase', d:'Edits files and stages a minimal patch.'},
+  {id:'open_pull_request', c:'engineering',  s:'vcs',      d:'Opens a pull request with a summary and diff.'},
+  // research
+  {id:'decompose_query',   c:'research',     s:'model',    d:'Breaks a question into sub-queries.'},
+  {id:'web_search',        c:'research',     s:'web',      d:'Searches the open web for candidate sources.'},
+  {id:'fetch_pages',       c:'research',     s:'web',      d:'Fetches and extracts page content.'},
+  {id:'rerank_sources',    c:'research',     s:'vector',   d:'Cross-encoder rerank of retrieved passages.'},
+  {id:'cross_check',       c:'research',     s:'web',      d:'Verifies each claim against multiple sources.'},
+  // observability
+  {id:'query_metrics',     c:'observability',s:'metrics',  d:'Queries time-series metrics over a window.'},
+  {id:'search_logs',       c:'observability',s:'logs',     d:'Searches structured logs for anomalies.'},
+  {id:'correlate_traces',  c:'observability',s:'metrics',  d:'Correlates latency across service traces.'},
+  {id:'diff_deploys',      c:'observability',s:'vcs',      d:'Diffs recent deploys to find a regression.'},
+  {id:'propose_rollback',  c:'observability',s:'vcs',      d:'Drafts a safe rollback or remediation.'},
+  // core
+  {id:'plan_steps',        c:'core',         s:'model',    d:'Plans and routes the tool sequence.'},
+  {id:'checkpoint_state',  c:'core',         s:'pg',       d:'Persists graph state for multi-turn runs.'},
+  {id:'stream_response',   c:'core',         s:'model',    d:'Streams the final answer token by token.'},
 ];
-const CLUSTER_ORDER = ['retrieval','drafting','va.gov','infra'];
+const CLUSTER_ORDER = ['engineering','research','observability','core'];
 
 /* =====================================================================
    03 · ARCHITECTURE GRAPH (deterministic SVG)
@@ -1125,7 +1135,7 @@ const CLUSTER_ORDER = ['retrieval','drafting','va.gov','infra'];
   const NS='http://www.w3.org/2000/svg';
   const mk=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
   // short labels for the graph nodes; full names live in SOURCES (tooltip + mobile list)
-  const SRC_SHORT={cfr:'38 CFR',m21:'M-21',med:'Medical lit',pine:'Pinecone',docs:'Per-user docs',vagov:'VA.gov OAuth',pg:'Postgres',azure:'Azure OpenAI'};
+  const SRC_SHORT={codebase:'Codebase',vcs:'GitHub',web:'Web',vector:'Pinecone',logs:'Logs',metrics:'Metrics',model:'Azure',pg:'Postgres'};
 
   const ordered = [...TOOLS].sort((a,b)=>CLUSTER_ORDER.indexOf(a.c)-CLUSTER_ORDER.indexOf(b.c));
   const n = ordered.length;
@@ -1247,60 +1257,113 @@ const CLUSTER_ORDER = ['retrieval','drafting','va.gov','infra'];
         metric=$('#runMetric'), metricBig=$('#metricBig'),
         replay=$('#replayRun'), runBar=$('#runBar'), runClock=$('#runClock');
 
-  // pipeline nodes used in this run (wired to log by id)
-  const STEPS_TOOLS=['summarize_service_hist','query_M21_manual','search_38_CFR','retrieve_medical_lit','pinecone_hybrid_search','draft_nexus_letter','checkpoint_state'];
-  const pnodes={};
-  STEPS_TOOLS.forEach(id=>{
-    const row=document.createElement('div'); row.className='pnode'; row.dataset.id=id;
-    row.innerHTML=`<span class="glyph"></span><span class="nm">${id}</span><span class="st"></span>`;
-    pipe.appendChild(row); pnodes[id]=row;
+  const metricLbl=metric.querySelector('.lbl'), selWrap=$('#runScenarios');
+  const SPEED=0.72;
+
+  // three switchable jobs — each a data-driven timeline with one error → retry → success
+  const SCN={
+    fix:{ k:'01', label:'ship a fix', code:true,
+      nodes:['search_repo','run_tests','analyze_trace','apply_patch','open_pull_request'],
+      metric:{to:142,prefix:'',suffix:'',label:'tests green<br>build restored'},
+      stream:`PR #1284 · fix(checkout): scale tax to cents\n\n--- a/src/cart.ts\n+++ b/src/cart.ts\n@@ applyTax(total, rate)\n-  return Math.round(total * rate) / 100;\n+  return Math.round(total * rate * 100) / 100;`,
+      TL:[
+        {type:'prompt',text:`<span class="role">user ›</span> CI is red on main — find why the checkout tests fail and ship a fix.`,wait:620},
+        {type:'think',text:`planning: reproduce → locate → patch → verify`,wait:740},
+        {type:'tool',id:'search_repo',args:`("applyTax checkout")`,lat:'88ms',wait:500},
+        {type:'res',text:`cart.ts · applyTax() · 3 call sites`,wait:440},
+        {type:'tool',id:'run_tests',args:`(suite="checkout")`,lat:'1.2s',wait:620},
+        {type:'err',text:`run_tests: 3 failing — expected 1080, got 10.80`,node:'run_tests',wait:560},
+        {type:'tool',id:'analyze_trace',args:`("applyTax")`,lat:'60ms',wait:480},
+        {type:'res',text:`tax scaled to dollars, not cents — rounding drops 100×`,wait:440},
+        {type:'tool',id:'apply_patch',args:`("src/cart.ts")`,lat:'41ms',wait:480},
+        {type:'res',text:`1 file changed · 1 insertion · 1 deletion`,wait:420},
+        {type:'retry',text:`re-running the checkout suite…`,node:'run_tests',wait:760},
+        {type:'res',text:`142 passing · 0 failing`,node:'run_tests',done:true,wait:460},
+        {type:'think',text:`drafting the pull request`,wait:600},
+        {type:'tool',id:'open_pull_request',args:`(branch="fix/checkout-tax")`,lat:'streaming',wait:460},
+        {type:'stream',wait:0},
+        {type:'done',text:`build green · PR #1284 opened`,node:'open_pull_request',wait:300},
+      ]},
+    research:{ k:'02', label:'answer with sources', code:false,
+      nodes:['decompose_query','web_search','fetch_pages','rerank_sources','cross_check'],
+      metric:{to:12,prefix:'',suffix:'',label:'claims<br>cross-checked'},
+      stream:`Short answer — for a read-heavy edge API, SQLite (with LiteFS or litestream) wins on p99 and operational simplicity at the edge. Reach for Postgres once you need concurrent writers, rich types, or multi-region consistency. [1][2][3][4]`,
+      TL:[
+        {type:'prompt',text:`<span class="role">user ›</span> Postgres or SQLite for a read-heavy edge API? Cite sources.`,wait:620},
+        {type:'think',text:`planning: decompose → search → fetch → verify → write`,wait:740},
+        {type:'tool',id:'decompose_query',args:`(q)`,lat:'40ms',wait:460},
+        {type:'res',text:`3 sub-questions: durability, p99, ops`,wait:440},
+        {type:'tool',id:'web_search',args:`("sqlite edge durability")`,lat:'120ms',wait:520},
+        {type:'res',text:`11 candidate sources`,wait:420},
+        {type:'tool',id:'fetch_pages',args:`(top=8)`,lat:'1.1s',wait:580},
+        {type:'err',text:`fetch_pages: one source returned 429 (rate limited)`,node:'fetch_pages',wait:560},
+        {type:'retry',text:`backing off → retrying with jitter`,node:'fetch_pages',wait:760},
+        {type:'res',text:`8 pages fetched & extracted`,node:'fetch_pages',done:true,wait:440},
+        {type:'tool',id:'rerank_sources',args:`(k=8)`,lat:'96ms',wait:480},
+        {type:'res',text:`reranked → top 4 kept`,wait:420},
+        {type:'tool',id:'cross_check',args:`(claims=12)`,lat:'210ms',wait:520},
+        {type:'res',text:`12 claims · 11 corroborated across ≥2 sources`,wait:440},
+        {type:'think',text:`synthesizing the answer with citations`,wait:640},
+        {type:'stream',wait:0},
+        {type:'done',text:`answered · 4 sources cited`,wait:300},
+      ]},
+    triage:{ k:'03', label:'triage an incident', code:false,
+      nodes:['query_metrics','search_logs','correlate_traces','diff_deploys','propose_rollback'],
+      metric:{to:93,prefix:'↓ ',suffix:'%',label:'p99 latency<br>after rollback'},
+      stream:`Root cause — deploy v412 added a synchronous payments call on the /checkout path, adding ~1.9s to p99.\n\nProposed — roll back api-gateway v412 → v411, then move the payments call behind the existing async queue.`,
+      TL:[
+        {type:'prompt',text:`<span class="role">alert ›</span> p99 latency 2.4s on api-gateway (baseline 180ms).`,wait:620},
+        {type:'think',text:`planning: correlate → localize → propose`,wait:740},
+        {type:'tool',id:'query_metrics',args:`(window="30m")`,lat:'92ms',wait:520},
+        {type:'res',text:`p99 spiked at 14:02 UTC · +1240%`,wait:440},
+        {type:'tool',id:'search_logs',args:`("timeout")`,lat:'1.1s',wait:580},
+        {type:'err',text:`search_logs: primary index lagging`,node:'search_logs',wait:560},
+        {type:'retry',text:`querying the read replica…`,node:'search_logs',wait:760},
+        {type:'res',text:`3 hot traces · all on /checkout`,node:'search_logs',done:true,wait:440},
+        {type:'tool',id:'correlate_traces',args:`(svc="api-gateway")`,lat:'140ms',wait:500},
+        {type:'res',text:`a blocking payments call adds ~1.9s`,wait:440},
+        {type:'tool',id:'diff_deploys',args:`(last=2)`,lat:'60ms',wait:480},
+        {type:'res',text:`v412 introduced the synchronous call`,wait:420},
+        {type:'think',text:`drafting the remediation`,wait:600},
+        {type:'tool',id:'propose_rollback',args:`(v412 → v411)`,lat:'38ms',wait:460},
+        {type:'stream',wait:0},
+        {type:'done',text:`root cause found · rollback drafted`,node:'propose_rollback',wait:300},
+      ]},
+  };
+  const ORDER=['fix','research','triage'];
+  let current='fix', playing=false, token=0, pnodes={};
+
+  ORDER.forEach(key=>{
+    const s=SCN[key];
+    const b=document.createElement('button'); b.setAttribute('role','tab'); b.dataset.k=key;
+    b.innerHTML=`<span class="k">${s.k}</span> ${s.label}`;
+    b.addEventListener('click',()=>{ if(key===current && playing) return; select(key); if(reduce) renderStatic(); else play(); });
+    selWrap.appendChild(b);
   });
+  function markSel(){ $$('#runScenarios button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.k===current))); }
+  function buildPipe(){
+    [...pipe.querySelectorAll('.pnode')].forEach(nd=>nd.remove());
+    pnodes={};
+    SCN[current].nodes.forEach(id=>{
+      const row=document.createElement('div'); row.className='pnode'; row.dataset.id=id;
+      row.innerHTML=`<span class="glyph"></span><span class="nm">${id}</span><span class="st"></span>`;
+      pipe.appendChild(row); pnodes[id]=row;
+    });
+  }
+  function select(key){ current=key; markSel(); buildPipe(); metricLbl.innerHTML=SCN[key].metric.label; }
 
-  // event timeline (real tool names; plausible latencies)
-  const LETTER = `To Whom It May Concern,\n\nIt is my opinion, to a reasonable degree of medical certainty (at least as likely as not), that this veteran's tinnitus is causally related to documented in-service acoustic trauma. The service treatment records, the lay evidence, and the peer-reviewed literature on noise-induced auditory injury are consistent and mutually corroborating.`;
-
-  const TL=[
-    {type:'prompt',text:`<span class="role">user ›</span> Draft a nexus letter linking my tinnitus to in-service acoustic trauma.`,wait:600},
-    {type:'think',text:`planning: retrieve service history → pull regulation → gather medical evidence → draft → cite`,wait:850},
-    {type:'tool',id:'summarize_service_hist',args:`(veteran_id="vh-8842")`,lat:'120ms',wait:520},
-    {type:'res',text:`24 mo. flight-deck duty · documented noise exposure · post-service onset`,wait:480},
-    {type:'tool',id:'query_M21_manual',args:`(topic="tinnitus", part="III.iv")`,lat:'310ms',wait:560},
-    {type:'res',text:`M-21-1 III.iv.4.B — secondary service connection criteria`,wait:460},
-    {type:'tool',id:'search_38_CFR',args:`(section="§4.87", code="6260")`,lat:'180ms',wait:520},
-    {type:'res',text:`38 CFR §4.87, DC 6260 — recurrent tinnitus, 10% rating`,wait:460},
-    {type:'tool',id:'retrieve_medical_lit',args:`(query="noise-induced tinnitus nexus")`,lat:'timeout',wait:620},
-    {type:'err',text:`retrieve_medical_lit: upstream 504 (gateway timeout)`,node:'retrieve_medical_lit',wait:560},
-    {type:'retry',text:`retrying with backoff (attempt 2/3)…`,node:'retrieve_medical_lit',wait:820},
-    {type:'res',text:`3 peer-reviewed sources retrieved · reranked to top-2`,node:'retrieve_medical_lit',done:true,wait:480},
-    {type:'tool',id:'pinecone_hybrid_search',args:`(k=12, alpha=0.5)`,lat:'96ms',wait:480},
-    {type:'res',text:`hybrid recall over embedded corpus · 12 candidates`,wait:460},
-    {type:'think',text:`synthesizing nexus letter with inline citations`,wait:760},
-    {type:'tool',id:'draft_nexus_letter',args:`(tone="clinical", cite=true)`,lat:'streaming',wait:520,stream:true},
-    {type:'tool',id:'checkpoint_state',args:`(thread="t-1d9f")`,lat:'42ms',wait:460},
-    {type:'res',text:`graph state persisted → postgres`,wait:400},
-    {type:'done',text:`run complete · nexus letter drafted & checkpointed`,wait:300},
-  ];
-
-  let token=0, playing=false;
-  const SPEED = 0.72;                                    // tighten the whole run to ~10s
-  const STREAM_MS = reduce?0:LETTER.split(/(\s+)/).length*22;
-  const totalEst = TL.reduce((a,e)=>a+e.wait,0)*SPEED + STREAM_MS;
+  const scn=()=>SCN[current];
+  const streamMs=t=>reduce?0:t.split(/(\s+)/).length*20;
+  const totalEst=()=>scn().TL.reduce((a,e)=>a+e.wait,0)*SPEED + streamMs(scn().stream);
 
   function ln(cls,html){
     const el=document.createElement('div'); el.className='ln '+cls;
-    const showGut = !['think'].includes(cls);
-    el.innerHTML=`<span class="gut">${showGut?String(++token).padStart(2,'0'):''}</span><span class="body">${html}</span>`;
+    el.innerHTML=`<span class="gut">${cls!=='think'?String(++token).padStart(2,'0'):''}</span><span class="body">${html}</span>`;
     log.appendChild(el); log.scrollTop=log.scrollHeight; return el;
   }
-  function setNode(id,state,label){
-    const r=pnodes[id]; if(!r)return;
-    r.classList.remove('run','err','done'); if(state)r.classList.add(state);
-    if(label)$('.st',r).textContent=label;
-  }
-  function setStatus(state,txt){
-    const c={run:'var(--amber)',err:'var(--ember)',done:'var(--success)',idle:'var(--text-lo)'}[state]||'var(--text-lo)';
-    statusEl.innerHTML=`<span class="dot" style="background:${c}"></span> ${txt}`;
-  }
+  function setNode(id,state,label){ const r=pnodes[id]; if(!r)return; r.classList.remove('run','err','done'); if(state)r.classList.add(state); if(label)$('.st',r).textContent=label; }
+  function setStatus(state,txt){ const c={run:'var(--amber)',err:'var(--ember)',done:'var(--success)',idle:'var(--text-lo)'}[state]||'var(--text-lo)'; statusEl.innerHTML=`<span class="dot" style="background:${c}"></span> ${txt}`; }
+  function markLastDone(){ const r=[...Object.values(pnodes)].reverse().find(n=>n.classList.contains('run')); if(r){r.classList.remove('run');r.classList.add('done');$('.st',r).textContent='done';} }
   function reset(){
     if(metricBig.__raf){cancelAnimationFrame(metricBig.__raf);metricBig.__raf=null;}
     log.innerHTML=''; token=0; metric.classList.add('pending'); metricBig.textContent='—';
@@ -1308,58 +1371,45 @@ const CLUSTER_ORDER = ['retrieval','drafting','va.gov','infra'];
     Object.values(pnodes).forEach(r=>{r.classList.remove('run','err','done');$('.st',r).textContent='';});
     setStatus('idle','idle');
   }
-
-  async function streamLetter(base){
-    const wrap=document.createElement('div'); wrap.className='letter';
+  async function streamOut(base){
+    const s=scn(), tot=totalEst(), sm=streamMs(s.stream);
+    const wrap=document.createElement('div'); wrap.className='letter'+(s.code?' code':'');
     const span=document.createElement('span'); const cur=document.createElement('span'); cur.className='cur';
     wrap.appendChild(span); wrap.appendChild(cur); log.appendChild(wrap);
-    const chunks=LETTER.split(/(\s+)/); let i=0;
+    const chunks=s.stream.split(/(\s+)/); let i=0;
     for(const ch of chunks){ span.textContent+=ch; log.scrollTop=log.scrollHeight;
-      runBar.style.width=Math.min(100,((base+(++i/chunks.length)*STREAM_MS)/totalEst)*100)+'%';
-      await wait(reduce?0:22); }
+      runBar.style.width=Math.min(100,((base+(++i/chunks.length)*sm)/tot)*100)+'%';
+      await wait(reduce?0:20); }
     cur.remove();
+    if(s.code) span.innerHTML=s.stream.split('\n').map(L=>{
+      const c=L.startsWith('+')?'var(--success)':L.startsWith('-')?'var(--text-lo)':L.startsWith('@@')?'var(--indigo)':L.startsWith('PR ')?'var(--signal)':'var(--text-mid)';
+      return `<span style="color:${c}">${L.replace(/</g,'&lt;')}</span>`;
+    }).join('\n');
   }
-
   async function play(){
     if(playing) return; playing=true; reset(); setStatus('run','running');
-    const t0=performance.now();
+    const tot=totalEst(), t0=performance.now();
     const clk=setInterval(()=>{runClock.textContent=((performance.now()-t0)/1000).toFixed(1)+'s';},100);
-    let elapsed=0;
-
+    let elapsed=0; const TL=scn().TL;
     for(let i=0;i<TL.length;i++){
       const e=TL[i];
-      elapsed+=e.wait*SPEED; runBar.style.width=Math.min(100,(elapsed/totalEst)*100)+'%';
-
+      elapsed+=e.wait*SPEED; runBar.style.width=Math.min(100,(elapsed/tot)*100)+'%';
       if(e.type==='prompt') ln('prompt',e.text);
       else if(e.type==='think') ln('think',e.text);
-      else if(e.type==='tool'){
-        ln('tool',`<span class="fn">${e.id}</span><span class="args">${e.args}</span><span class="lat">${e.lat}</span>`);
-        setNode(e.id,'run','running'); setStatus('run',e.id);
-        if(e.stream){ await wait(reduce?0:e.wait*SPEED); await streamLetter(elapsed); elapsed+=STREAM_MS; setNode(e.id,'done','done'); continue; }
-      }
+      else if(e.type==='tool'){ ln('tool',`<span class="fn">${e.id}</span><span class="args">${e.args}</span><span class="lat">${e.lat}</span>`); setNode(e.id,'run','running'); setStatus('run',e.id); }
       else if(e.type==='res'){ ln('res',e.text); if(e.node&&e.done){setNode(e.node,'done','done');} else { markLastDone(); } }
       else if(e.type==='err'){ ln('err',e.text); setNode(e.node,'err','error'); setStatus('err','error'); }
       else if(e.type==='retry'){ ln('retry',e.text); setNode(e.node,'run','retry'); setStatus('run','retrying'); }
-      else if(e.type==='done'){
-        ln('done',e.text); setStatus('done','done'); setNode('checkpoint_state','done','done');
-        metric.classList.remove('pending'); countUp(metricBig,60,900,'↓ ','%');
-      }
+      else if(e.type==='stream'){ await streamOut(elapsed); elapsed+=streamMs(scn().stream); }
+      else if(e.type==='done'){ ln('done',e.text); if(e.node)setNode(e.node,'done','done'); setStatus('done','done'); metric.classList.remove('pending'); const m=scn().metric; countUp(metricBig,m.to,900,m.prefix,m.suffix); }
       await wait(reduce?0:e.wait*SPEED);
     }
-    runBar.style.width='100%'; clearInterval(clk);
-    runClock.textContent=((performance.now()-t0)/1000).toFixed(1)+'s';
-    playing=false;
+    runBar.style.width='100%'; clearInterval(clk); runClock.textContent=((performance.now()-t0)/1000).toFixed(1)+'s'; playing=false;
   }
-  function markLastDone(){
-    // find most recent running pnode and resolve it
-    const running=[...Object.values(pnodes)].reverse().find(r=>r.classList.contains('run'));
-    if(running){running.classList.remove('run');running.classList.add('done');$('.st',running).textContent='done';}
-  }
-
-  // static completed state for reduced-motion (still meaningful, never blank)
+  // static completed state (reduced-motion) — meaningful, never blank
   function renderStatic(){
-    reset();
-    TL.forEach(e=>{
+    reset(); const s=scn();
+    s.TL.forEach(e=>{
       if(e.type==='prompt')ln('prompt',e.text);
       else if(e.type==='think')ln('think',e.text);
       else if(e.type==='tool')ln('tool',`<span class="fn">${e.id}</span><span class="args">${e.args}</span><span class="lat">${e.lat}</span>`);
@@ -1368,27 +1418,20 @@ const CLUSTER_ORDER = ['retrieval','drafting','va.gov','infra'];
       else if(e.type==='retry')ln('retry',e.text);
       else if(e.type==='done')ln('done',e.text);
     });
-    const wrap=document.createElement('div'); wrap.className='letter'; wrap.textContent=LETTER; log.appendChild(wrap);
+    const wrap=document.createElement('div'); wrap.className='letter'+(s.code?' code':''); wrap.textContent=s.stream; log.appendChild(wrap);
     Object.keys(pnodes).forEach(id=>setNode(id,'done','done'));
-    setStatus('done','done'); metric.classList.remove('pending'); metricBig.textContent='↓ 60%';
-    runBar.style.width='100%';
+    setStatus('done','done'); metric.classList.remove('pending');
+    metricBig.textContent=s.metric.prefix+s.metric.to+s.metric.suffix; runBar.style.width='100%';
   }
 
-  // autoplay once when scrolled into view
+  select(current);                                       // build pipe + label + selector state
+
   let fired=false;
-  const obs=new IntersectionObserver((es)=>{
-    es.forEach(e=>{
-      if(e.isIntersecting && !fired){
-        fired=true;
-        if(reduce) renderStatic(); else play();
-        obs.disconnect();
-      }
-    });
-  },{threshold:.35});
+  const obs=new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting && !fired){ fired=true; if(reduce) renderStatic(); else play(); obs.disconnect(); } }); },{threshold:.3});
   obs.observe($('#agent_run'));
 
-  replay.addEventListener('click',()=>{ if(reduce){renderStatic();} else { if(!playing) play(); } });
-  window.__replayRun = ()=>{ document.getElementById('agent_run').scrollIntoView({behavior:reduce?'auto':'smooth'}); if(!reduce && !playing) play(); else if(reduce) renderStatic(); };
+  replay.addEventListener('click',()=>{ if(reduce){renderStatic();} else if(!playing){play();} });
+  window.__replayRun=()=>{ document.getElementById('agent_run').scrollIntoView({behavior:reduce?'auto':'smooth'}); if(reduce) renderStatic(); else if(!playing) play(); };
 })();
 
 /* =====================================================================
@@ -1441,8 +1484,8 @@ $$('.count').forEach(el=>cio.observe(el));
      items:['TypeScript','React 18','Redux Toolkit','RTK Query','Vite','Vitest','Cypress','Vercel']},
     {k:'mobile',
      stats:[{n:'36',l:'components',viz:{bar:1}},{n:'18',l:'screens',viz:{bar:.78}}],
-     proof:'A React Native 0.84 iOS app on TestFlight with my own iOS 26 Liquid Glass design system.',
-     items:['React Native 0.84','Reanimated v4','gesture-handler','Liquid Glass system','SFSpeechRecognizer','StoreKit 2']},
+     proof:'A React Native 0.84 iOS app on TestFlight, built on Aurora Night — my own design system, with a look inspired by iOS 26 Liquid Glass.',
+     items:['React Native 0.84','Reanimated v4','gesture-handler','Aurora Night system','SFSpeechRecognizer','StoreKit 2']},
     {k:'infra',
      stats:[{n:'2',l:'services on Fargate',viz:{bar:.66}},{n:'multi×/wk',l:'release cadence',viz:{spark:true}}],
      proof:'Owned the AWS deploy story end to end — containers, OCR, observability, and CI/CD multiple times a week.',
