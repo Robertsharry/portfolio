@@ -169,10 +169,11 @@ body:not(.reduce) .hero-name.lit{
 @keyframes sheen{to{background-position:-220% 0}}
 
 .hero-sub{font-family:var(--mono);color:var(--text-mid);font-size:clamp(.85rem,1.4vw,1rem);letter-spacing:.04em;
-  margin:26px 0 0;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
-.hero-sub .pipe{color:var(--signal)}
-.hero-value{font-size:clamp(1.05rem,2vw,1.45rem);color:var(--text-hi);max-width:30ch;margin:22px 0 0;line-height:1.4;
-  font-weight:500}
+  margin:26px 0 0;display:flex;flex-wrap:wrap;align-items:center}
+.hero-sub span{white-space:nowrap;display:inline-flex;align-items:center}
+.hero-sub span:not(:last-child)::after{content:"·";color:var(--signal);margin:0 .75em;opacity:.85}
+.hero-value{font-size:clamp(1.05rem,2vw,1.45rem);color:var(--text-hi);max-width:34ch;margin:22px 0 0;line-height:1.4;
+  font-weight:500;text-wrap:balance}
 .hero-value em{font-style:normal;color:var(--signal)}
 
 .cmdbar{margin-top:34px;display:flex;align-items:center;gap:12px;max-width:520px;
@@ -420,28 +421,19 @@ body:not(.reduce) .ds-stage .aura{animation:auraPulse 6s var(--ease) infinite al
 .tabs button[aria-selected="true"] .n{color:#06231f;opacity:.65}
 .tabs button:not([aria-selected="true"]):hover{border-color:var(--signal-dim);color:var(--text-hi)}
 .tabpanel{background:var(--panel);border:1px solid var(--hairline);border-radius:16px;padding:clamp(20px,3vw,32px)}
-.tabpanel .proof{font-family:var(--body);color:var(--text-mid);max-width:62ch;margin:0 0 20px;font-size:1rem}
-.tabpanel .proof b{color:var(--text-hi);font-weight:500}
+.tabpanel .proof{font-family:var(--body);color:var(--text-mid);max-width:64ch;margin:0 0 22px;
+  font-size:clamp(1rem,1.5vw,1.1rem);line-height:1.6}
+.tabpanel .proof b{color:var(--text-hi);font-weight:600}
 .manifest{display:flex;flex-wrap:wrap;gap:10px}
 .manifest .chip{font-family:var(--mono);font-size:12.5px;color:var(--text-mid);border:1px solid var(--hairline);
   border-radius:9px;padding:9px 13px;background:var(--panel-raised);transition:transform .25s var(--ease),border-color .25s,color .25s}
 .manifest .chip:hover{transform:translateY(-3px);border-color:var(--signal-dim);color:var(--text-hi)}
 .manifest .chip::before{content:"›";color:var(--signal);margin-right:8px}
-/* capability stat tiles + small visualizations */
-.cap-stats{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 24px}
-.stat{flex:1 1 160px;background:var(--panel-raised);border:1px solid var(--hairline);border-radius:13px;padding:16px 18px;display:flex;flex-direction:column}
-.stat .n{font-family:var(--mono);font-weight:500;font-size:clamp(1.55rem,3.6vw,2.05rem);color:var(--signal);
-  font-variant-numeric:tabular-nums;line-height:1}
-.stat .l{font-family:var(--mono);font-size:11.5px;color:var(--text-mid);margin-top:7px;letter-spacing:.02em;line-height:1.4}
-.stat .viz{margin-top:14px;display:flex;align-items:center;gap:10px}
-.stat .vbar{flex:1;height:6px;border-radius:3px;background:var(--hairline);overflow:hidden}
-.stat .vbar i{display:block;height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--signal),var(--indigo));transition:width .9s var(--ease)}
-.stat .vring{width:38px;height:38px;flex:none}
-.stat .vring circle{fill:none;stroke-width:5}
-.stat .vring .bg{stroke:var(--hairline)}
-.stat .vring .fg{stroke:var(--signal);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1s var(--ease)}
-.stat .vspark{display:flex;align-items:flex-end;gap:5px;height:26px}
-.stat .vspark i{width:7px;border-radius:2px;background:linear-gradient(var(--signal),var(--signal-dim))}
+/* product panel: context line + headline metric */
+.prod-top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 18px;margin:0 0 16px}
+.prod-ctx{font-family:var(--mono);font-size:12px;color:var(--text-mid);letter-spacing:.03em}
+.prod-metric{font-family:var(--mono);font-weight:500;font-size:clamp(1.05rem,2.3vw,1.45rem);color:var(--signal);
+  font-variant-numeric:tabular-nums;line-height:1.1;white-space:nowrap}
 
 /* ============================================================
    06 · RUN HISTORY
@@ -494,7 +486,30 @@ body:not(.reduce) .ds-stage .aura{animation:auraPulse 6s var(--ease) infinite al
 .exp-feature li b{color:var(--text-hi);font-weight:500}
 
 /* ============================================================
-   07 · OPERATOR
+   07 · SIDE QUESTS (independent projects)
+   ============================================================ */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.proj-grid{grid-template-columns:1fr}}
+.proj-card{display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit;
+  background:var(--panel);border:1px solid var(--hairline);border-radius:16px;padding:22px 22px 20px;
+  transition:transform .3s var(--ease),border-color .3s,background .3s}
+.proj-card:hover{transform:translateY(-4px);border-color:var(--signal-dim);background:var(--panel-raised)}
+.proj-hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.proj-name{font-family:var(--display);font-weight:600;font-size:1.3rem;color:var(--text-hi);letter-spacing:-.01em}
+.proj-link{font-family:var(--mono);font-size:11.5px;color:var(--text-lo);white-space:nowrap;transition:color .3s}
+.proj-card:hover .proj-link{color:var(--signal)}
+.proj-desc{font-family:var(--body);font-size:.96rem;line-height:1.55;color:var(--text-mid);margin:0;flex:1}
+.proj-desc b{color:var(--text-hi);font-weight:500}
+.proj-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+.proj-chips span{font-family:var(--mono);font-size:11px;color:var(--text-lo);border:1px solid var(--hairline);border-radius:7px;padding:5px 9px}
+.proj-wip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-weight:500;font-size:10px;
+  color:var(--amber);letter-spacing:.02em;margin-left:11px;vertical-align:middle;white-space:nowrap}
+.proj-wip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber);flex:none}
+body:not(.reduce) .proj-wip::before{animation:wipblink 2.4s ease-in-out infinite}
+@keyframes wipblink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ============================================================
+   08 · OPERATOR
    ============================================================ */
 #operator{background:linear-gradient(180deg,transparent,rgba(124,140,248,.03),transparent)}
 .op-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:48px;align-items:start}
@@ -511,7 +526,7 @@ body:not(.reduce) .ds-stage .aura{animation:auraPulse 6s var(--ease) infinite al
 .op-notes div b{color:var(--text-hi);font-weight:500}
 
 /* ============================================================
-   08 · CONTACT
+   09 · CONTACT
    ============================================================ */
 #contact{padding-bottom:0}
 .contact-panel{background:radial-gradient(120% 120% at 50% 0,rgba(52,229,196,.07),transparent 55%),var(--panel);
@@ -630,9 +645,10 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
   <nav class="links" aria-label="Sections">
     <a href="#agent_run"><span class="n">02</span> agent_run</a>
     <a href="#architecture"><span class="n">03</span> the_graph</a>
-    <a href="#stack"><span class="n">05</span> stack</a>
+    <a href="#stack"><span class="n">05</span> shipped</a>
     <a href="#run_history"><span class="n">06</span> history</a>
-    <a href="#contact"><span class="n">08</span> contact</a>
+    <a href="#projects"><span class="n">07</span> projects</a>
+    <a href="#contact"><span class="n">09</span> contact</a>
   </nav>
   <button class="cmdk-hint" id="open-cmdk" aria-label="Open command palette">
     <span>command</span> <kbd>⌘K</kbd>
@@ -645,38 +661,44 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
 <section class="nojs-resume" aria-label="Résumé (text version)">
   <div class="wrap2">
     <h1>Robert Sean Harry</h1>
-    <p class="r">AI Engineer · Senior Full Stack Engineer · US Navy Veteran</p>
+    <p class="r">AI Engineer · Mobile &amp; Full Stack · US Navy Veteran</p>
     <p class="c">Oceanside, CA · <a href="mailto:rsean.harry@gmail.com">rsean.harry@gmail.com</a> · <a href="tel:+16193998500">(619) 399-8500</a> · <a href="./resume.pdf">Download résumé (PDF)</a> · <a href="https://github.com/Robertsharry">GitHub</a> · <a href="https://www.linkedin.com/in/robertharrycode/">LinkedIn</a></p>
     <p>This portfolio runs as an interactive agent console. You have JavaScript disabled, so here is the text version — the full résumé PDF is linked above.</p>
 
     <h2>Summary</h2>
-    <p>AI engineer and senior full stack engineer with 9+ years of experience and a year of production LangChain/LangGraph agentic systems shipped to paying users. Built multi-tool LLM workflows on Azure OpenAI with Pinecone hybrid retrieval, token budgeting, streaming, and human-in-the-loop drafting — across a FastAPI backend, a React/TypeScript web app, and a React Native iOS client.</p>
+    <p>AI, mobile, and senior full stack engineer with 9+ years shipping production software to real users — from a year of LangChain/LangGraph agentic systems on Azure OpenAI and Pinecone, to consumer products people know: NBA Top Shot, the HBO Max streaming apps, and Hulu's video pipeline. I build AI agents, mobile apps, and the interfaces people actually use — across FastAPI backends, React/TypeScript web, and React Native iOS.</p>
 
     <h2>Experience</h2>
     <h3>VeteranAI — Senior Full Stack Engineer</h3>
-    <p class="d">Feb 2025 – May 2026 · Remote</p>
+    <p class="d">Mar 2025 – May 2026 · Remote</p>
     <ul>
-      <li>Built an agentic claims assistant (LangChain/LangGraph, Azure OpenAI, Pinecone hybrid retrieval) with 18+ tools over medical literature, the M-21 manual, and 38 CFR — drafting personal and buddy statements and nexus letters; ~60% faster time to draft.</li>
+      <li>Built an agentic claims assistant (LangChain/LangGraph, Azure OpenAI, Pinecone hybrid retrieval) with 18+ tools over medical literature, the M-21 manual, and 38 CFR — drafting personal and buddy statements and nexus letters; ~60% faster time to draft, for 40,000+ veterans.</li>
+      <li>Built the React Native 0.84 iOS app from zero: Aurora Night, my own Liquid Glass design system (36 components / 18 screens on Reanimated v4), on-device speech-to-text and text-to-speech for accessibility, and a Chat Artifacts layer surfacing disabilities, claims, and documents inline mid-chat. Shipped to TestFlight and the App Store.</li>
+      <li>Built the React 18 + TypeScript web app from zero as sole frontend engineer (architecture, tooling, component library, routing, Supabase auth, Stripe, live on Vercel), then migrated it to a vertical-slice architecture of 20 domain-owned modules — ~40% less cross-domain coupling.</li>
       <li>VA.gov dual-OAuth integration (benefit-claims + veteran-verification); Form 21-0966 and 21-526EZ submission flows.</li>
+      <li>Architected an end-to-end referral &amp; acquisition system across web and mobile — code generation, attribution, a milestone-based reward engine (badge/monthly/annual Pro tiers), Celery-driven distribution, and a share command center — an organic growth channel with zero paid spend.</li>
+      <li>FastAPI backend with Celery + Redis workers across dedicated queues (symptom reminders, document ingestion, webhook fan-out, scheduled VA syncs), an FCM push system (device-token registry, per-user preferences) with Flower observability, on AWS ECS Fargate/S3/Textract/CloudWatch with GitHub Actions CI/CD. 500+ commits across 3 codebases.</li>
       <li>Stripe + RevenueCat StoreKit 2 monetization with idempotent webhook reconciliation; Apple 3.1.1/3.1.2 compliant; subscription drift cut to near zero.</li>
-      <li>Shipped across 3 codebases / 500+ commits: FastAPI, React 18 + TypeScript (Vercel), React Native 0.84 (TestFlight). AWS ECS Fargate/S3/Textract/CloudWatch, Celery/Redis, FCM, GitHub Actions.</li>
-      <li>Aurora Night — my own React Native design system, a look inspired by iOS 26 Liquid Glass: 36 components and 18 screens on Reanimated v4; on device speech to text and text to speech for accessibility.</li>
+      <li>Built full onboarding (guided walkthrough, in-app tutorial, plain-language user guide); served as primary customer-facing engineer (live user video calls, community), owned the veteranai.co marketing site from Figma handoffs, and authored technical docs for web and mobile.</li>
     </ul>
-    <h3>Staffwerk — Lead Full Stack Engineer</h3>
-    <p class="d">Sep 2024 – Feb 2025</p>
-    <p>Led engineering on a Django/Python REST API, React admin panel, and React Native app; AWS/Kubernetes/Docker; +20% application performance.</p>
-    <h3>Vision Media — Lead Full Stack Engineer</h3>
-    <p class="d">Nov 2022 – Sep 2023 · Carlsbad, CA (contract)</p>
-    <p>Shipped 15+ features across React/Ionic/Vue/PHP; Airtable data integrations; a DRM content-protection feature.</p>
+    <h3>StaffWerk — Staff Software Engineer</h3>
+    <p class="d">Apr 2024 – Jan 2025 · Oceanside, CA (on-site)</p>
+    <p>Took a full technical handover from a third-party agency (audited the React Native/Expo codebase; stood up in-house CI/CD, Git branching, and ticketing); ran four weekly live operational events with 1,000+ concurrent users — real-time worker-location monitoring, automated hour logging, same-session payment disbursement; bi-weekly App Store + Google Play releases via Expo. Led roadmapping, sprint planning, and company-wide training.</p>
+    <h3>Vision Media — Full Stack Engineer</h3>
+    <p class="d">Nov 2022 – Apr 2023 · Carlsbad, CA (remote)</p>
+    <p>Built Screeners, a private pre-release screening app (mobile + web) where studios show unreleased films and shows to reviewers and a film’s own cast, with a DRM watermark that overlays the logged-in viewer’s name the instant a screenshot or recording is taken. React/Ionic/Vue/CoffeeScript/PHP/MySQL; mobile on Ionic, CapacitorJS, Node, Docker, BitMovin.</p>
     <h3>Carvana — Lead Senior Software Engineer</h3>
-    <p class="d">Feb 2021 – Nov 2022 · Remote</p>
-    <p>React/TypeScript/C#/GraphQL dashboards and a shared internal UI library; AWS production operations. Engineer of the Quarter.</p>
-    <h3>Dapper Labs — Lead Full Stack Engineer</h3>
-    <p class="d">Jan 2020 – Jan 2021 · contract</p>
-    <p>Python/GoLang/React/C++ systems; contributed to the Lil’ Miquela digital human (Unreal/Python/Maya).</p>
+    <p class="d">Jan 2021 – Nov 2022 · Remote</p>
+    <p>Primarily built UI components and API contracts for a delivery dashboard and online applications in React, TypeScript, and C#; RESTful services over dynamic datasets (Redux, GraphQL); contributed to the internal UI library; led and taught code sessions. Engineer of the Quarter.</p>
+    <h3>TEKsystems — Full Stack / UI Engineer</h3>
+    <p class="d">2018 – 2021 · contract</p>
+    <p>Scaffolded the HBO Max streaming UI across Apple TV, Roku, and web with full ownership of the movie section; helped build Hulu’s ETL video pipeline (ingest, transform, delivery at streaming scale). Ran alongside my Blizzard and Dapper Collectives contracts.</p>
+    <h3>Dapper Collectives — Software Engineer → Senior Developer</h3>
+    <p class="d">2018 – 2021 · contract · Los Angeles, CA</p>
+    <p>Contributed to NBA Top Shot and helped build the Flow Playground (the in-browser Cadence editor for the Flow blockchain); built web3 auth and voting tools, custom APIs for whitelisting/waitlisting/auth, a FLOW DAO token maker, FCL React hooks, and blockchain/social sign-in (Flow, Blocto). React/Svelte/Cadence/GO/Flask/MongoDB/Kubernetes/AWS.</p>
     <h3>Blizzard Entertainment — Full Stack Engineer</h3>
     <p class="d">May 2018 – Jan 2020 · contract</p>
-    <p>Python/React/C++ systems and content-management tooling.</p>
+    <p>Built the BlizzCon website and its age-gate verification component, plus no-code content tooling. Python/React/C++.</p>
     <h3>Harris Media — Full Stack Engineer</h3>
     <p class="d">May 2016 – May 2018</p>
     <p>React/JS/Liquid/PHP/Ionic; maintained 3 CMS/CRM platforms across the oil, finance, and politics sectors.</p>
@@ -699,12 +721,12 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
   </div>
 
   <div class="wrap">
-    <span class="hero-tag"><span class="dot pulse"></span> open to senior AI / full stack roles</span>
+    <span class="hero-tag"><span class="dot pulse"></span> open to senior AI, mobile &amp; full stack roles</span>
     <h1 class="hero-name" id="heroName">Robert Sean Harry<span class="car" aria-hidden="true"></span></h1>
-    <p class="hero-sub" aria-label="AI Engineer, Senior Full Stack Engineer, US Navy Veteran">
-      AI Engineer <span class="pipe">·</span> Senior Full Stack <span class="pipe">·</span> US Navy Veteran
+    <p class="hero-sub" aria-label="AI Engineer, Mobile and Full Stack Engineer, US Navy Veteran">
+      <span>AI Engineer</span><span>Mobile &amp; Full Stack</span><span>US Navy Veteran</span>
     </p>
-    <p class="hero-value">I ship <em>production agentic AI</em> to paying users — and the full stack underneath it.</p>
+    <p class="hero-value">I ship <em>AI agents</em>, <em>mobile apps</em>, and the <em>interfaces</em> people actually use. In production, with paying users.</p>
 
     <div class="cmdbar" aria-hidden="true">
       <span class="chev">›</span>
@@ -843,13 +865,13 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
 </section>
 
 <!-- ============ 05 · STACK ============ -->
-<section id="stack" aria-label="Capabilities">
+<section id="stack" aria-label="Products I have shipped">
   <div class="wrap">
-    <p class="eyebrow">// 05 · stack</p>
+    <p class="eyebrow">// 05 · shipped</p>
     <h2 class="sec rv">Things I have shipped.</h2>
-    <p class="sec-intro rv d1">Not buzzwords — the stack behind production software with paying users, grouped by what it shipped.</p>
+    <p class="sec-intro rv d1">Not a skills cloud — the actual products, named. Who they were for, what I built, what they ran on.</p>
 
-    <div class="tabs rv d1" role="tablist" aria-label="Stack categories" id="stackTabs"></div>
+    <div class="tabs rv d1" role="tablist" aria-label="Products" id="stackTabs"></div>
     <div class="tabpanel rv d2" id="stackPanel" role="tabpanel" tabindex="0"></div>
   </div>
 </section>
@@ -865,15 +887,20 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
     <div class="exp-feature rv d1">
       <div class="hd">
         <span class="co">VeteranAI</span>
-        <span class="when">Feb 2025 — May 2026 · Remote</span>
+        <span class="when">Mar 2025 — May 2026 · Remote</span>
         <span class="tag">● current</span>
       </div>
       <div class="role">Senior Full Stack Engineer</div>
       <ul>
-        <li><b>Agentic claims assistant.</b> Designed and shipped LangChain/LangGraph workflows on Azure OpenAI and Pinecone hybrid retrieval, with 18+ tools over medical literature, the M-21 manual, and 38 CFR — drafting personal statements, buddy statements, and nexus letters. <b>~60% faster time to draft.</b></li>
-        <li><b>VA.gov dual-OAuth integration.</b> Two OAuth flows (benefit-claims + veteran-verification) with different scopes and token lifetimes, async ratings/service-history polling, and full Form 21-0966 + 21-526EZ submission paths.</li>
-        <li><b>Production monetization.</b> Stripe Checkout (web) + RevenueCat StoreKit 2 IAP (iOS) with idempotent webhook reconciliation — Apple 3.1.1/3.1.2 compliant, subscription drift cut to near zero.</li>
-        <li><b>Three codebases, 500+ commits.</b> FastAPI backend, React 18 + TS web on Vercel, React Native 0.84 iOS app on TestFlight. AWS ECS Fargate / S3 / Textract / CloudWatch, Celery + Redis, FCM, GitHub Actions CI/CD.</li>
+        <li><span><b>Agentic claims assistant.</b> Designed and shipped LangChain/LangGraph workflows on Azure OpenAI and Pinecone hybrid retrieval, with 18+ tools over medical literature, the M-21 manual, and 38 CFR — drafting personal statements, buddy statements, and nexus letters. <b>~60% faster time to draft, for 40,000+ veterans.</b></span></li>
+        <li><span><b>React Native iOS app, from zero.</b> Built the production RN 0.84 app ground-up — <b>Aurora Night</b>, my own Liquid Glass design system (36 components across 18 screens), on-device speech-to-text and text-to-speech for accessibility, and a <b>Chat Artifacts</b> layer that surfaces disabilities, claims, and documents inline mid-chat so veterans can review before they submit. Shipped to TestFlight and the App Store.</span></li>
+        <li><span><b>React web app, from zero → 20 modules.</b> Sole frontend engineer — architecture, tooling, component library, routing, Supabase auth, and Stripe, zero to live on Vercel. Then migrated it to a vertical-slice architecture of <b>20 domain-owned modules</b> (each owning its RTK Query slices, hooks, and pages), cutting cross-domain coupling <b>~40%</b>.</span></li>
+        <li><span><b>VA.gov dual-OAuth integration.</b> Two OAuth flows (benefit-claims + veteran-verification) with different scopes and token lifetimes, async ratings/service-history polling, and full Form 21-0966 + 21-526EZ submission paths.</span></li>
+        <li><span><b>Referral &amp; acquisition engine.</b> Architected an end-to-end referral system across web and mobile — code generation, attribution capture, a milestone-based reward engine (badge, monthly, and annual Pro tiers), Celery-driven reward distribution, and a share command center — a measurable <b>organic growth channel</b> with zero paid spend.</span></li>
+        <li><span><b>Backend, jobs &amp; notifications.</b> FastAPI backend with Celery + Redis workers across dedicated queues — symptom reminders, document ingestion, webhook fan-out, and scheduled VA syncs — plus a production FCM push system (device-token registry, per-user preferences) with Flower observability. Ran on AWS ECS Fargate / S3 / Textract / CloudWatch, GitHub Actions CI/CD.</span></li>
+        <li><span><b>Production monetization.</b> Stripe Checkout (web) + RevenueCat StoreKit 2 IAP (iOS) with idempotent webhook reconciliation — Apple 3.1.1/3.1.2 compliant, subscription drift cut to near zero.</span></li>
+        <li><span><b>Onboarding for a non-technical base.</b> Built a guided interactive walkthrough, an in-app tutorial, and a hand-written plain-language user guide covering the whole app — cutting friction for a user base that skews less technical.</span></li>
+        <li><span><b>The face of the product.</b> Primary customer-facing engineer — live video calls to diagnose and fix issues in real time, community channels as the technical voice, the marketing site (veteranai.co) from Figma handoffs, and technical docs for web and mobile.</span></li>
       </ul>
     </div>
 
@@ -881,10 +908,41 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
   </div>
 </section>
 
-<!-- ============ 07 · OPERATOR ============ -->
+<!-- ============ 07 · SIDE QUESTS ============ -->
+<section id="projects" aria-label="Independent projects">
+  <div class="wrap">
+    <p class="eyebrow">// 07 · side_quests</p>
+    <h2 class="sec rv">Things I ship on my own time.</h2>
+    <p class="sec-intro rv d1">No team, no PM, no ticket queue — just me. Every one is live; click through.</p>
+    <div class="proj-grid rv d1">
+      <a class="proj-card" href="https://racehq.app" target="_blank" rel="noopener">
+        <div class="proj-hd"><span class="proj-name">RaceHQ</span><span class="proj-link">racehq.app ↗</span></div>
+        <p class="proj-desc">A race-registration platform built around <b>3D course maps</b> — real-elevation terrain, live registration and results, organizer dashboards, and Stripe-paid tiers.</p>
+        <div class="proj-chips"><span>React</span><span>Mapbox GL</span><span>Supabase</span><span>Stripe</span><span>Python</span></div>
+      </a>
+      <a class="proj-card" href="https://ciphernews.app" target="_blank" rel="noopener">
+        <div class="proj-hd"><span class="proj-name">CipherNews<span class="proj-wip">work in progress</span></span><span class="proj-link">ciphernews.app ↗</span></div>
+        <p class="proj-desc">A paid AI news app: <b>Claude</b> writes 10–12 non-partisan stories every six hours — world and local — each with a mini-game and a subscriber forum.</p>
+        <div class="proj-chips"><span>Next.js 16</span><span>Claude</span><span>Supabase</span><span>Stripe</span><span>Vercel Cron</span></div>
+      </a>
+      <a class="proj-card" href="https://relay-ten-blush.vercel.app" target="_blank" rel="noopener">
+        <div class="proj-hd"><span class="proj-name">Relay<span class="proj-wip">work in progress</span></span><span class="proj-link">relay ↗</span></div>
+        <p class="proj-desc">An <b>AI receptionist</b> for HVAC, dental, and plastic-surgery practices — answers, books, and never goes home. Vet-owned, month-to-month.</p>
+        <div class="proj-chips"><span>Next.js 15</span><span>TypeScript</span><span>Tailwind v4</span></div>
+      </a>
+      <a class="proj-card" href="https://realpokedex-five.vercel.app" target="_blank" rel="noopener">
+        <div class="proj-hd"><span class="proj-name">RealPokedex</span><span class="proj-link">realpokedex ↗</span></div>
+        <p class="proj-desc">A full Pokédex <b>PWA</b> — all 1,025 Pokémon, a battle-team builder with type-coverage analysis, a matchup explorer, and side-by-side compare. Built for my sons.</p>
+        <div class="proj-chips"><span>Next.js 16</span><span>React 19</span><span>Zustand</span><span>PWA</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 · OPERATOR ============ -->
 <section id="operator" aria-label="Off the clock">
   <div class="wrap">
-    <p class="eyebrow">// 07 · operator</p>
+    <p class="eyebrow">// 08 · operator</p>
     <h2 class="sec rv">Off the clock.</h2>
     <div class="op-grid">
       <div class="op-copy rv">
@@ -905,7 +963,7 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
 <!-- ============ 08 · CONTACT ============ -->
 <section id="contact" aria-label="Contact">
   <div class="wrap">
-    <p class="eyebrow">// 08 · contact</p>
+    <p class="eyebrow">// 09 · contact</p>
     <div class="contact-panel rv">
       <svg class="hex" viewBox="0 0 64 64" aria-hidden="true"><use href="#kmark"/></svg>
       <h2>Let's build something people trust.</h2>
@@ -1470,39 +1528,38 @@ $$('.count').forEach(el=>cio.observe(el));
    ===================================================================== */
 (function stack(){
   const DATA=[
-    {k:'agentic AI',
-     stats:[{n:'18+',l:'tools shipped',viz:{bar:.9}},{n:'~60%',l:'faster drafts',viz:{ring:60}}],
-     proof:'Production agentic AI for paying users — 18+ tools, LangGraph orchestration, hybrid retrieval, streaming, and token budgeting.',
-     items:['LangChain','LangGraph','Pinecone','Azure OpenAI','hybrid retrieval','token budgeting','LangGraph checkpoints']},
-    {k:'backend API',
-     stats:[{n:'3',l:'codebases served',viz:{bar:1}},{n:'2',l:'task queues · celery, pipeline',viz:{bar:.66}}],
-     proof:'A FastAPI service plus a regulatory sync worker, async tasks, and a versioned ingestion pipeline.',
-     items:['Python','FastAPI','Django','Celery','Redis','PostgreSQL','MySQL','SQLAlchemy 2.0','Alembic']},
-    {k:'web app',
-     stats:[{n:'20',l:'domain modules',viz:{bar:1}},{n:'~40%',l:'less coupling',viz:{ring:40}}],
-     proof:'A React 18 and TypeScript app on Vercel, refactored into 20 domain modules with isolated data and routing.',
-     items:['TypeScript','React 18','Redux Toolkit','RTK Query','Vite','Vitest','Cypress','Vercel']},
-    {k:'iOS app',
-     stats:[{n:'36',l:'components',viz:{bar:1}},{n:'18',l:'screens',viz:{bar:.78}}],
-     proof:'A React Native 0.84 iOS app on TestFlight, built on Aurora Night — my own design system, with a look inspired by iOS 26 Liquid Glass.',
-     items:['React Native 0.84','Reanimated v4','gesture-handler','Aurora Night system','SFSpeechRecognizer','StoreKit 2']},
-    {k:'cloud & CI/CD',
-     stats:[{n:'2',l:'services on Fargate',viz:{bar:.66}},{n:'multi×/wk',l:'release cadence',viz:{spark:true}}],
-     proof:'Owned the AWS deploy story end to end — containers, OCR, observability, and CI/CD multiple times a week.',
-     items:['AWS ECS Fargate','S3','Textract','CloudWatch','Kubernetes','Docker','GitHub Actions','Sentry','Supabase','Firebase']},
-    {k:'payments & IAP',
-     stats:[{n:'~0',l:'subscription drift',viz:{ring:96}},{n:'2',l:'billing platforms',viz:{bar:.66}}],
-     proof:'A monetization stack reconciled Stripe first with RevenueCat fallback, backed by an idempotent event log.',
-     items:['Stripe Checkout','RevenueCat','StoreKit 2','webhook reconciliation','idempotent event log','Apple 3.1.1/3.1.2']},
+    {k:'VeteranAI',
+     ctx:'my flagship · iOS app + web (app.veteranai.co)',
+     metric:'40,000+ users',
+     proof:'An <b>agentic VA-claims assistant</b> I designed and shipped as a <b>React Native iOS app</b> and a <b>web app at app.veteranai.co</b> — LangGraph over 18+ tools with hybrid retrieval, streaming, and on-device speech, all on <b>Aurora Night</b>, my own design system (36 components, 18 screens).',
+     items:['React Native 0.84','React 18 + TS','LangGraph','Azure OpenAI','Pinecone','FastAPI','StoreKit 2']},
+    {k:'NBA Top Shot',
+     ctx:'Dapper Collectives · Flow blockchain',
+     metric:'web3 on Flow',
+     proof:'At <b>Dapper Collectives</b>, in the <b>Flow</b> ecosystem — contributed to <b>NBA Top Shot</b> and helped build the <b>Flow Playground</b> (the in-browser Cadence editor), plus web3 auth and voting tools, a FLOW DAO token maker, and FCL React hooks with blockchain sign-in (Flow, Blocto).',
+     items:['React','Cadence','Flow / FCL','GoLang','Flask','web3 auth']},
+    {k:'HBO Max',
+     ctx:'TEKsystems contract · streaming UI',
+     metric:'3 platforms',
+     proof:'Scaffolded the <b>HBO Max</b> streaming UI across <b>Apple TV, Roku, and web</b>, with full ownership of the <b>movie section</b> — the browse, detail, and playback surfaces viewers used every day.',
+     items:['tvOS','Roku','Web','React','UI architecture','streaming']},
+    {k:'Hulu',
+     ctx:'TEKsystems contract · video infrastructure',
+     metric:'streaming-scale ETL',
+     proof:'Helped build the <b>ETL video pipeline</b> that carried Hulu’s catalog through ingest, transform, and delivery at streaming scale.',
+     items:['Python','ETL','video pipeline','data engineering']},
+    {k:'Screeners',
+     ctx:'Vision Media · pre-release screening platform',
+     metric:'every major studio',
+     proof:'A <b>pre-release screening platform</b> where studios — HBO Max and basically everyone else — let reviewers and a film’s own cast watch unreleased movies and shows. I built the <b>DRM watermark</b> that burned each viewer’s identity into the stream and shut down leaks.',
+     items:['React','DRM watermark','video','access control','anti-piracy']},
+    {k:'BlizzCon',
+     ctx:'Blizzard Entertainment · web · contract',
+     metric:'site + age-gate',
+     proof:'Built the <b>BlizzCon</b> website and its <b>age-gate verification</b> component, plus no-code content tools that let teams ship landing pages without engineering.',
+     items:['React','Python','C++','age verification','CMS tooling']},
   ];
   const tabs=$('#stackTabs'), panel=$('#stackPanel');
-  function vizHTML(v){
-    if(v.bar!=null) return `<div class="viz"><div class="vbar"><i data-w="${Math.round(v.bar*100)}"></i></div></div>`;
-    if(v.ring!=null){const C=(2*Math.PI*16).toFixed(1), off=(2*Math.PI*16*(1-v.ring/100)).toFixed(1);
-      return `<div class="viz"><svg class="vring" viewBox="0 0 40 40" aria-hidden="true"><circle class="bg" cx="20" cy="20" r="16"/><circle class="fg" cx="20" cy="20" r="16" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-off="${off}"/></svg></div>`;}
-    if(v.spark) return `<div class="viz"><div class="vspark"><i style="height:28%"></i><i style="height:52%"></i><i style="height:74%"></i><i style="height:100%"></i></div></div>`;
-    return '';
-  }
   DATA.forEach((d,i)=>{
     const b=document.createElement('button'); b.setAttribute('role','tab');
     b.setAttribute('aria-selected',String(i===0)); b.dataset.i=i;
@@ -1514,13 +1571,9 @@ $$('.count').forEach(el=>cio.observe(el));
     $$('#stackTabs button').forEach((b,j)=>b.setAttribute('aria-selected',String(i===j)));
     const d=DATA[i];
     panel.innerHTML=`
-      <div class="cap-stats">${d.stats.map(s=>`<div class="stat"><span class="n">${s.n}</span><span class="l">${s.l}</span>${vizHTML(s.viz)}</div>`).join('')}</div>
+      <div class="prod-top"><span class="prod-ctx">${d.ctx}</span>${d.metric?`<span class="prod-metric">${d.metric}</span>`:''}</div>
       <p class="proof">${d.proof}</p>
       <div class="manifest">${d.items.map(x=>`<span class="chip">${x}</span>`).join('')}</div>`;
-    requestAnimationFrame(()=>{
-      $$('.vbar i[data-w]',panel).forEach(el=>{el.style.width=el.dataset.w+'%';});
-      $$('.vring .fg[data-off]',panel).forEach(el=>{el.style.strokeDashoffset=el.dataset.off;});
-    });
   }
   select(0);
 })();
@@ -1530,31 +1583,34 @@ $$('.count').forEach(el=>cio.observe(el));
    ===================================================================== */
 (function exp(){
   const ROWS=[
-    {when:'Sep 2024 — Feb 2025',co:'Staffwerk',role:'Lead Full Stack Engineer · Django + React Native',metric:'+20% app performance',bullets:[
-      'Led the team across a Django and Python REST API, a React admin panel, and a React Native app — a <b>20% lift</b> in app performance.',
-      'Took over a stalled handoff and shipped it to iOS and Android on GitHub Actions CI/CD.',
-      'Integrated QuickBooks and a timesheet system in Python — <b>30% fewer payroll errors</b>.',
-      'Built geolocation shift tracking plus Twilio and FCM dispatch — <b>40% faster</b> shift fulfillment.',
-      'Stood up monitoring on CloudWatch and the ELK stack; ran AWS, Kubernetes, and Docker.']},
-    {when:'Nov 2022 — Sep 2023',co:'Vision Media',role:'Lead Full Stack Engineer · React / Ionic / PHP',metric:'15+ features shipped',bullets:[
-      'Shipped <b>15+ features</b> across React, Ionic, Vue, and PHP — 25% better project efficiency.',
-      'Built automated Airtable syncs, scripted reports, and task automations across teams.',
-      'Designed a DRM feature that watermarks the viewer’s name over unauthorized recordings.',
-      'Cleared 100+ Jira tickets; ran AWS dev, test, and prod with S3 delivery pipelines.']},
-    {when:'Feb 2021 — Nov 2022',co:'Carvana',role:'Lead Senior Software Engineer · React / TS / C#',metric:'Engineer of the Quarter',green:true,bullets:[
-      'Built UI components and API contracts in React, TypeScript, and C# — <b>30% better performance</b>.',
-      'Developed routing, navigation, and scheduling for a dashboard in C#, React, Redux, and GraphQL.',
-      'Authored an internal React and TypeScript component library — <b>40% faster development</b>.',
-      'Hardened code across browsers and devices (25% fewer bugs); closed 200+ Jira tickets.']},
-    {when:'Jan 2020 — Jan 2021',co:'Dapper Labs',role:'Lead Full Stack Engineer · contract',metric:'Lil’ Miquela',bullets:[
-      'Built systems in Python, GoLang, React, and C++ — 25% higher performance.',
-      'Contributed to <b>Lil’ Miquela</b>, the virtual media personality (Unreal, Python, Maya).',
-      'Shipped content management and voting tools — 40% more user engagement.',
-      'Built a sandbox for contract creation, NFT minting, and trading — 25% better retention.']},
-    {when:'May 2018 — Jan 2020',co:'Blizzard Entertainment',role:'Full Stack Engineer · contract',metric:'Python / React / C++',bullets:[
-      'Built systems in Python, React, and C++ — 30% more functionality.',
-      'Created content tools for managers and teammates to deploy landing pages without code.',
-      'Supported change management and internal controls across releases.']},
+    {when:'Apr 2024 — Jan 2025',co:'StaffWerk',role:'Staff Software Engineer · React Native / Expo · on-site',metric:'1,000+ concurrent',bullets:[
+      'Took a full technical handover from a third-party agency — audited the mobile codebase and stood up in-house CI/CD, Git branching, and a structured ticketing system to restore delivery velocity.',
+      'Ran four weekly <b>live operational events with 1,000+ concurrent users</b> — real-time worker-location monitoring, automated hour logging, and same-session payment disbursement.',
+      'Managed a bi-weekly release cadence to the App Store and Google Play via <b>Expo</b>, with zero-downtime updates.',
+      'Owned the full user-story lifecycle; led roadmapping and sprint planning, and ran weekly training across the whole company.']},
+    {when:'Nov 2022 — Apr 2023',co:'Vision Media',role:'Full Stack Engineer · React / Ionic / Vue',metric:'Screeners + DRM',bullets:[
+      'Built <b>Screeners</b>, a private pre-release screening app (mobile + web) where studios show unreleased films and shows to reviewers and a film’s own cast.',
+      'Designed the <b>DRM watermark</b> that overlays the logged-in viewer’s name the instant a screenshot or recording is taken — killing leaks.',
+      'Shipped across React, Ionic, Vue, CoffeeScript, PHP, and MySQL; mobile on Ionic, CapacitorJS, Node, Docker, and BitMovin.',
+      'Worked from Figma handoffs with owners and managers via Jira, Airtable, Slack, GitLab, and GitHub.']},
+    {when:'Jan 2021 — Nov 2022',co:'Carvana',role:'Lead Senior Software Engineer · React / TS / C#',metric:'Engineer of the Quarter',green:true,bullets:[
+      'Primarily built <b>UI components and API contracts</b> for a delivery dashboard and online applications in React, TypeScript, and C#.',
+      'Engineered RESTful services over dynamic datasets; worked across C#, React, Redux, TypeScript, and GraphQL.',
+      'Contributed to the internal UI component and utility library off the design handbook; reviewed code for security and cross-browser/device compatibility.',
+      'Led and taught code sessions for the team; tracked stories in Jira and fixed production issues from service alerts.']},
+    {when:'2018 — 2021',co:'TEKsystems',role:'Full Stack / UI Engineer · contract',metric:'HBO Max · Hulu',bullets:[
+      'Scaffolded the <b>HBO Max</b> streaming UI across <b>Apple TV, Roku, and web</b> — owning the <b>movie section</b> end to end.',
+      'Helped build <b>Hulu’s</b> ETL video pipeline: ingest, transform, and delivery at streaming scale.',
+      'Ran alongside my Blizzard and Dapper Collectives contracts — tvOS, Roku, and web UI for two of the largest streaming catalogs.']},
+    {when:'2018 — 2021',co:'Dapper Collectives',role:'Software Engineer → Senior Developer · contract',metric:'NBA Top Shot · Flow',bullets:[
+      'Contributed to <b>NBA Top Shot</b> and helped build the <b>Flow Playground</b> — the in-browser Cadence editor for the Flow blockchain.',
+      'Built <b>web3 auth and voting tools</b>: custom APIs for whitelisting, waitlisting, authentication, and event data; a FLOW DAO token maker; and custom React hooks for FCL.',
+      'Wired blockchain and social sign-in (Flow, Blocto, Instagram, Facebook); piped Airtable assets to S3 for secure render of voting options.',
+      'Built GO and Flask API endpoints across React, Svelte, Cadence, MongoDB, Kubernetes, and AWS.']},
+    {when:'May 2018 — Jan 2020',co:'Blizzard Entertainment',role:'Full Stack Engineer · contract',metric:'BlizzCon site',bullets:[
+      'Built the <b>BlizzCon</b> website and its <b>age-gate verification</b> component.',
+      'Created no-code content tools so teams could deploy landing pages without engineering.',
+      'Built across Python, React, and C++; supported change management across releases.']},
     {when:'May 2016 — May 2018',co:'Harris Media',role:'Full Stack Engineer · React / Liquid / PHP',metric:'3 CMS / CRM platforms',bullets:[
       'Built website themes from scratch in React, JavaScript, Liquid, PHP, and Ionic.',
       'Maintained <b>3 CMS and CRM platforms</b> across the oil, finance, and politics sectors.',
@@ -1572,7 +1628,7 @@ $$('.count').forEach(el=>cio.observe(el));
       <span class="rolebox"><span class="co">${r.co}</span><span class="role">${r.role}</span></span>
       <span class="metric ${r.green?'green':''}">${r.metric}</span>${CHEV}`;
     const detail=document.createElement('div'); detail.className='row-detail'; detail.id=did;
-    detail.innerHTML=`<div class="inner"><ul>${r.bullets.map(b=>`<li>${b}</li>`).join('')}</ul></div>`;
+    detail.innerHTML=`<div class="inner"><ul>${r.bullets.map(b=>`<li><span>${b}</span></li>`).join('')}</ul></div>`;
     btn.addEventListener('click',()=>{ const open=item.classList.toggle('open'); btn.setAttribute('aria-expanded',String(open)); });
     item.appendChild(btn); item.appendChild(detail); root.appendChild(item);
   });
@@ -1602,8 +1658,9 @@ $$('.count').forEach(el=>cio.observe(el));
     {label:'Run the agent demo',meta:'02',ic:ico.play,run:()=>window.__replayRun?.()},
     {label:'Jump · the architecture graph',meta:'03',ic:ico.jump,run:()=>go('#architecture')},
     {label:'Jump · the design system',meta:'04',ic:ico.jump,run:()=>go('#design_system')},
-    {label:'Jump · stack & capabilities',meta:'05',ic:ico.jump,run:()=>go('#stack')},
+    {label:'Jump · what I shipped',meta:'05',ic:ico.jump,run:()=>go('#stack')},
     {label:'Jump · track record',meta:'06',ic:ico.jump,run:()=>go('#run_history')},
+    {label:'Jump · independent projects',meta:'07',ic:ico.jump,run:()=>go('#projects')},
     {label:'Copy email address',meta:'⌘',ic:ico.mail,run:async()=>{try{await navigator.clipboard.writeText('rsean.harry@gmail.com');}catch{}}},
     {label:'Email Robert',meta:'→',ic:ico.mail,run:()=>location.href='mailto:rsean.harry@gmail.com'},
     {label:'Download résumé (PDF)',meta:'↓',ic:ico.doc,run:()=>window.open('./resume.pdf','_blank')},
@@ -1663,8 +1720,8 @@ if(!coarse && motionOK){
   document.body.classList.add('has-cursor');
   const dot=$('.cursor-dot'), ring=$('.cursor-ring');
   let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px)`;},{passive:true});
-  (function loop(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop);})();
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;},{passive:true});
+  (function loop(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
   const hot='a,button,[data-magnetic],.tool-g,.cmdk-item,.switch,[role="tab"]';
   document.addEventListener('pointerover',e=>{if(e.target.closest(hot))document.body.classList.add('cursor-hot');});
   document.addEventListener('pointerout',e=>{if(e.target.closest(hot))document.body.classList.remove('cursor-hot');});
