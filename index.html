@@ -1929,12 +1929,12 @@ addEventListener('load',()=>{
       gl_Position = vec4(p, 0.0, 1.0);
     }`;
   const fsrc=`
-    precision mediump float; varying float v_b;
+    precision mediump float; varying float v_b; uniform vec3 u_color;
     void main(){
       vec2 c = gl_PointCoord - 0.5;
       float r = length(c);
       float a = smoothstep(0.5, 0.0, r);
-      vec3 col = vec3(0.204, 0.898, 0.769) * v_b;   // signal teal
+      vec3 col = u_color * v_b;                      // live accent (set from --signal)
       gl_FragColor = vec4(col, a*v_b);
     }`;
 
@@ -1952,7 +1952,9 @@ addEventListener('load',()=>{
   }
   buf(drift,'a_drift',2); buf(target,'a_target',2); buf(seed,'a_seed',1);
   const uBoot=gl.getUniformLocation(prog,'u_boot'), uTime=gl.getUniformLocation(prog,'u_time'),
-        uMouse=gl.getUniformLocation(prog,'u_mouse'), uAspect=gl.getUniformLocation(prog,'u_aspect');
+        uMouse=gl.getUniformLocation(prog,'u_mouse'), uAspect=gl.getUniformLocation(prog,'u_aspect'),
+        uColor=gl.getUniformLocation(prog,'u_color');
+  const DEFAULT_RGB=[0.204,0.898,0.769];   // signal teal, used until the accent control sets one
 
   gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE); // additive
 
@@ -1979,6 +1981,7 @@ addEventListener('load',()=>{
       const t=(now-t0)/1000;
       boot=Math.min(1, boot + 0.018);                   // ~1.6s boot
       gl.uniform1f(uBoot,boot); gl.uniform1f(uTime,t); gl.uniform2f(uMouse,mouse[0],mouse[1]);
+      var ac=window.__accentRGB||DEFAULT_RGB; gl.uniform3f(uColor,ac[0],ac[1],ac[2]);
       gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.POINTS,0,N);
     }
@@ -2028,6 +2031,7 @@ addEventListener('load',()=>{
   function toHex(c){return '#'+c.map(function(x){return ('0'+x.toString(16)).slice(-2);}).join('').toUpperCase();}
   function apply(h,save){
     var sig=hsl2rgb(h,0.77,0.55);
+    window.__accentRGB=[sig[0]/255,sig[1]/255,sig[2]/255];
     root.style.setProperty('--signal',toHex(sig));
     root.style.setProperty('--signal-rgb',sig.join(','));
     root.style.setProperty('--signal-dim',toHex(hsl2rgb(h,0.57,0.27)));
@@ -2040,6 +2044,7 @@ addEventListener('load',()=>{
   function clear(){
     ['--signal','--signal-rgb','--signal-dim','--signal-bright','--signal-ink','--signal-glow']
       .forEach(function(p){root.style.removeProperty(p);});
+    window.__accentRGB=[0.204,0.898,0.769];
     if(hex) hex.textContent='#34E5C4';
     hue.value=169;
     try{localStorage.removeItem(KEY);}catch(e){}
