@@ -558,14 +558,23 @@ body:not(.reduce) .ds-stage .aura{animation:auraPulse 6s var(--ease) infinite al
 /* ============================================================
    07 · SIDE QUESTS (independent projects)
    ============================================================ */
-.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;counter-reset:quest}
 @media(max-width:760px){.proj-grid{grid-template-columns:1fr}}
-.proj-card{display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit;
+.proj-card{display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit;counter-increment:quest;
+  position:relative;overflow:hidden;
   background:var(--panel);border:1px solid var(--hairline);border-radius:16px;padding:22px 22px 20px;
-  transition:transform .3s var(--ease),border-color .3s,background .3s}
-.proj-card:hover{transform:translateY(-4px);border-color:var(--signal-dim);background:var(--panel-raised)}
+  transition:transform .3s var(--ease),border-color .3s,background .3s,box-shadow .3s}
+.proj-card:hover{transform:translateY(-4px);border-color:var(--signal-dim);background:var(--panel-raised);
+  box-shadow:0 26px 55px -36px rgba(var(--signal-rgb),.55)}
+.proj-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--signal),var(--indigo));transform:scaleX(0);transform-origin:0 50%;
+  transition:transform .45s var(--ease)}
+.proj-card:hover::before,.proj-card:focus-visible::before{transform:scaleX(1)}
 .proj-hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 .proj-name{font-family:var(--display);font-weight:600;font-size:1.3rem;color:var(--text-hi);letter-spacing:-.01em}
+.proj-name::before{content:counter(quest,decimal-leading-zero);font-family:var(--mono);font-size:11px;font-weight:500;
+  color:var(--text-lo);margin-right:10px;letter-spacing:.06em;vertical-align:2px;transition:color .3s}
+.proj-card:hover .proj-name::before{color:var(--signal)}
 .proj-link{font-family:var(--mono);font-size:11.5px;color:var(--text-lo);white-space:nowrap;transition:color .3s}
 .proj-card:hover .proj-link{color:var(--signal)}
 .proj-desc{font-family:var(--body);font-size:.96rem;line-height:1.55;color:var(--text-mid);margin:0;flex:1}
@@ -659,14 +668,20 @@ body.has-cursor .cursor-dot,body.has-cursor .cursor-ring{display:block}
 body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
 
 /* ---------- accent color control (live recolor) ---------- */
-.accent-ctl{position:fixed;right:16px;bottom:16px;z-index:130;display:flex;align-items:center;gap:10px;
-  font-family:var(--mono);font-size:11.5px;color:var(--text-mid);
+.accent-ctl{position:fixed;left:16px;bottom:16px;z-index:130;display:flex;align-items:center;
   background:rgba(18,21,28,.82);backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px);
-  border:1px solid var(--hairline);border-radius:100px;padding:7px 11px 7px 9px;
-  box-shadow:0 16px 40px -24px #000;opacity:.6;transition:opacity .25s var(--ease),border-color .25s}
+  border:1px solid var(--hairline);border-radius:100px;box-shadow:0 16px 40px -24px #000;padding:5px;
+  font-family:var(--mono);font-size:11.5px;color:var(--text-mid);opacity:.82;
+  transition:opacity .25s var(--ease),border-color .25s}
 .accent-ctl:hover,.accent-ctl:focus-within{opacity:1;border-color:var(--signal-dim)}
-.accent-sw{width:15px;height:15px;border-radius:50%;flex:none;background:var(--signal);
-  box-shadow:0 0 0 3px rgba(var(--signal-rgb),.18)}
+.accent-trigger{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;
+  background:none;border:none;padding:0;cursor:pointer;flex:none}
+.accent-sw{width:16px;height:16px;border-radius:50%;flex:none;background:var(--signal);
+  box-shadow:0 0 0 3px rgba(var(--signal-rgb),.18);transition:transform .25s var(--ease)}
+.accent-trigger:hover .accent-sw{transform:scale(1.08)}
+.accent-body{display:flex;align-items:center;gap:10px;overflow:hidden;white-space:nowrap;
+  max-width:0;opacity:0;transition:max-width .4s var(--ease),opacity .25s,margin .4s var(--ease)}
+.accent-ctl:hover .accent-body,.accent-ctl:focus-within .accent-body{max-width:300px;opacity:1;margin:0 8px 0 4px}
 .accent-range{-webkit-appearance:none;appearance:none;width:104px;height:5px;border-radius:4px;cursor:pointer;margin:0;
   background:linear-gradient(90deg,hsl(0 80% 55%),hsl(60 80% 55%),hsl(120 80% 55%),hsl(180 80% 55%),hsl(240 80% 55%),hsl(300 80% 55%),hsl(360 80% 55%))}
 .accent-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;
@@ -677,7 +692,7 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
 .accent-reset{color:var(--text-lo);border:1px solid var(--hairline);border-radius:7px;padding:4px 9px;
   transition:color .25s,border-color .25s}
 .accent-reset:hover{color:var(--signal);border-color:var(--signal-dim)}
-@media(max-width:560px){.accent-hex{display:none}.accent-range{width:78px}}
+@media(max-width:560px){.accent-hex{display:none}.accent-range{width:84px}}
 @media(pointer:coarse){.accent-reset{min-height:34px;display:inline-flex;align-items:center}}
 @media print{.accent-ctl{display:none!important}}
 
@@ -1013,6 +1028,11 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
         <p class="proj-desc">A race registration platform built around <b>3D course maps</b>: real elevation terrain, live registration and results, organizer dashboards, and paid tiers via Stripe.</p>
         <div class="proj-chips"><span>React</span><span>Mapbox GL</span><span>Supabase</span><span>Stripe</span><span>Python</span></div>
       </a>
+      <a class="proj-card" href="https://redthread.red" target="_blank" rel="noopener">
+        <div class="proj-hd"><span class="proj-name">REDTHREAD</span><span class="proj-link">redthread.red ↗</span></div>
+        <p class="proj-desc">A realtime <b>evidence board</b>: pin the proof, draw the red string, connect the dots. A live multiplayer corkboard synced over Supabase Realtime, fed by a wire of USGS, flight, and world event data. Pay what you want via Stripe.</p>
+        <div class="proj-chips"><span>Next.js 16</span><span>React Flow</span><span>Supabase Realtime</span><span>Stripe</span><span>TypeScript</span></div>
+      </a>
       <a class="proj-card" href="https://ciphernews.app" target="_blank" rel="noopener">
         <div class="proj-hd"><span class="proj-name">CipherNews<span class="proj-wip">work in progress</span></span><span class="proj-link">ciphernews.app ↗</span></div>
         <p class="proj-desc">A paid AI news app: <b>Claude</b> writes 10 to 12 nonpartisan stories every six hours, world and local, each with a minigame and a subscriber forum.</p>
@@ -1027,11 +1047,6 @@ body.cursor-hot .cursor-ring{width:54px;height:54px;opacity:.4}
         <div class="proj-hd"><span class="proj-name">RealPokedex</span><span class="proj-link">realpokedex ↗</span></div>
         <p class="proj-desc">A full Pokédex <b>PWA</b>: all 1,025 Pokémon, a battle team builder with type coverage analysis, a matchup explorer, and side by side compare. Built for my sons.</p>
         <div class="proj-chips"><span>Next.js 16</span><span>React 19</span><span>Zustand</span><span>PWA</span></div>
-      </a>
-      <a class="proj-card" href="https://redthread.red" target="_blank" rel="noopener">
-        <div class="proj-hd"><span class="proj-name">REDTHREAD</span><span class="proj-link">redthread.red ↗</span></div>
-        <p class="proj-desc">A realtime <b>evidence board</b>: pin the proof, draw the red string, connect the dots. A live multiplayer corkboard synced over Supabase Realtime, fed by a wire of USGS, flight, and world event data. Pay what you want via Stripe.</p>
-        <div class="proj-chips"><span>Next.js 16</span><span>React Flow</span><span>Supabase Realtime</span><span>Stripe</span><span>TypeScript</span></div>
       </a>
     </div>
   </div>
@@ -1986,10 +2001,14 @@ addEventListener('load',()=>{
 
 <!-- accent color control -->
 <div class="accent-ctl" role="group" aria-label="Accent color">
-  <span class="accent-sw" aria-hidden="true"></span>
-  <input class="accent-range" id="accentHue" type="range" min="0" max="360" value="169" aria-label="Accent color hue" />
-  <span class="accent-hex mono" id="accentHex">#34E5C4</span>
-  <button class="accent-reset mono" id="accentReset" type="button">reset</button>
+  <button class="accent-trigger" id="accentTrigger" type="button" title="Accent color" aria-label="Change accent color" aria-expanded="false">
+    <span class="accent-sw" aria-hidden="true"></span>
+  </button>
+  <div class="accent-body">
+    <input class="accent-range" id="accentHue" type="range" min="0" max="360" value="169" aria-label="Accent color hue" />
+    <span class="accent-hex mono" id="accentHex">#34E5C4</span>
+    <button class="accent-reset mono" id="accentReset" type="button">reset</button>
+  </div>
 </div>
 <script>
 /* live accent recolor — one hue drives the whole signal palette; persisted */
@@ -2027,6 +2046,11 @@ addEventListener('load',()=>{
   }
   hue.addEventListener('input',function(){apply(+hue.value,true);});
   if(reset) reset.addEventListener('click',clear);
+  var ctl=document.querySelector('.accent-ctl'), trig=document.getElementById('accentTrigger');
+  if(ctl&&trig){
+    ctl.addEventListener('focusin',function(){trig.setAttribute('aria-expanded','true');});
+    ctl.addEventListener('focusout',function(){trig.setAttribute('aria-expanded','false');});
+  }
   var saved=null; try{saved=localStorage.getItem(KEY);}catch(e){}
   if(saved!==null && saved!==''){hue.value=+saved; apply(+saved,false);}
 })();
